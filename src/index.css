@@ -1,0 +1,314 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-surface-700/50;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-[#0a0a0f] text-white antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-surface-700/50 rounded-full hover:bg-surface-600/50 transition-colors;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-surface-900/60 backdrop-blur-xl border border-surface-700/30;
+  }
+
+  .glass-hover {
+    @apply hover:bg-surface-800/60 hover:border-surface-600/40 transition-all duration-200;
+  }
+
+  .btn-primary {
+    @apply relative inline-flex items-center justify-center px-6 py-3 font-semibold text-white
+    bg-gradient-to-r from-primary-600 to-primary-500 rounded-xl
+    hover:from-primary-500 hover:to-primary-400
+    active:scale-[0.98] transition-all duration-200
+    shadow-lg shadow-primary-600/20 hover:shadow-primary-500/30
+    disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
+  }
+
+  .btn-secondary {
+    @apply relative inline-flex items-center justify-center px-6 py-3 font-semibold text-surface-200
+    bg-surface-800/80 border border-surface-700/50 rounded-xl
+    hover:bg-surface-700/80 hover:text-white hover:border-surface-600/50
+    active:scale-[0.98] transition-all duration-200
+    disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
+  }
+
+  .btn-ghost {
+    @apply relative inline-flex items-center justify-center px-4 py-2 font-medium text-surface-400
+    hover:text-white hover:bg-surface-800/50 rounded-lg
+    active:scale-[0.98] transition-all duration-200;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 bg-surface-800/80 border border-surface-700/50 rounded-xl
+    text-white placeholder-surface-500
+    focus:outline-none focus:border-primary-500/50 focus:ring-2 focus:ring-primary-500/10
+    transition-all duration-200;
+  }
+
+  .card {
+    @apply glass rounded-2xl p-6;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium
+    bg-surface-800/80 text-surface-300 rounded-full border border-surface-700/30;
+  }
+
+  .tooltip {
+    @apply absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2.5 py-1.5
+    bg-surface-800 text-white text-xs font-medium rounded-lg whitespace-nowrap
+    opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200;
+  }
+
+  .slider {
+    @apply appearance-none w-full h-1.5 rounded-full bg-surface-700/50 cursor-pointer;
+  }
+
+  .slider::-webkit-slider-thumb {
+    @apply appearance-none w-4 h-4 rounded-full bg-primary-500 cursor-pointer
+    shadow-lg shadow-primary-500/30 transition-transform duration-150
+    hover:scale-110 active:scale-95;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-orange-400 via-amber-400 to-yellow-400;
+  }
+
+  .text-gradient-hero {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-orange-400 via-amber-300 to-yellow-200;
+  }
+
+  .bg-grid {
+    background-image: radial-gradient(rgba(249, 115, 22, 0.08) 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+
+  .bg-grid-white {
+    background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+}
+
+/* Timeline waveform animation */
+@keyframes waveform {
+  0%, 100% { height: 20%; }
+  50% { height: 100%; }
+}
+
+.animate-waveform {
+  animation: waveform 1.2s ease-in-out infinite;
+}
+
+/* Progress bar animation */
+@keyframes progress-indeterminate {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+
+.animate-progress {
+  animation: progress-indeterminate 2s ease-in-out infinite;
+}
+
+/* Recording pulse animation */
+@keyframes recording-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.1); }
+}
+
+.animate-recording {
+  animation: recording-pulse 1s ease-in-out infinite;
+}
+
+/* 3D Hero Grid — transforms now driven by JS for mouse parallax */
+/* Fallback transform prevents a flat flash before JS kicks in */
+.hero-grid-floor {
+  transform-origin: center top;
+  transform: rotateX(72deg);
+}
+
+.hero-grid-axes {
+  transform-origin: center top;
+  transform: rotateX(72deg);
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-fade-in-delay-1 {
+  animation: fadeIn 0.5s ease-out 0.1s forwards;
+  opacity: 0;
+}
+
+.animate-fade-in-delay-2 {
+  animation: fadeIn 0.5s ease-out 0.2s forwards;
+  opacity: 0;
+}
+
+.animate-fade-in-delay-3 {
+  animation: fadeIn 0.5s ease-out 0.3s forwards;
+  opacity: 0;
+}
+
+/* Slide up animation for mobile panel */
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Scrollbar hide utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Safe area for mobile bottom nav */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Hero Floating Shapes */
+.hero-shapes-layer {
+  perspective: 600px;
+  perspective-origin: 50% 30%;
+}
+
+.hero-shape {
+  position: absolute;
+  pointer-events: none;
+}
+
+/* Cube 1 — slow 3D rotation + float */
+@keyframes cube-float {
+  0%, 100% { transform: translateY(0px) rotateX(15deg) rotateY(0deg); opacity: 0.5; }
+  33% { transform: translateY(-16px) rotateX(20deg) rotateY(90deg); opacity: 0.7; }
+  66% { transform: translateY(-8px) rotateX(10deg) rotateY(180deg); opacity: 0.6; }
+}
+
+.hero-cube {
+  animation: cube-float 10s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Cube 2 — gentle bob + slight rotation */
+@keyframes cube-float-2 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.4; }
+  50% { transform: translateY(-12px) rotate(30deg); opacity: 0.6; }
+}
+
+.hero-cube-2 {
+  animation: cube-float-2 7s ease-in-out infinite;
+  animation-delay: 0.7s;
+  will-change: transform;
+}
+
+/* Cube 3 — quick bob with border glow */
+@keyframes cube-float-3 {
+  0%, 100% { transform: translateY(0px); opacity: 0.3; }
+  50% { transform: translateY(-10px); opacity: 0.5; box-shadow: 0 0 8px rgba(249,115,22,0.15); }
+}
+
+.hero-cube-3 {
+  animation: cube-float-3 6s ease-in-out infinite;
+  animation-delay: 1.5s;
+  will-change: transform;
+}
+
+/* Diamond — spins 360° while floating */
+@keyframes diamond-spin {
+  0% { transform: translateY(0px) rotate(45deg); opacity: 0.4; }
+  50% { transform: translateY(-14px) rotate(225deg); opacity: 0.6; }
+  100% { transform: translateY(0px) rotate(405deg); opacity: 0.4; }
+}
+
+.hero-diamond {
+  animation: diamond-spin 12s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Ring 1 — scales up and down while floating */
+@keyframes ring-pulse {
+  0%, 100% { transform: translateY(0px) scale(1); opacity: 0.25; }
+  50% { transform: translateY(-12px) scale(1.12); opacity: 0.45; }
+}
+
+.hero-ring {
+  animation: ring-pulse 9s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Ring 2 — quicker pulse with offset */
+@keyframes ring-pulse-2 {
+  0%, 100% { transform: translateY(0px) scale(1); opacity: 0.2; }
+  50% { transform: translateY(-8px) scale(1.08); opacity: 0.4; }
+}
+
+.hero-ring-2 {
+  animation: ring-pulse-2 7s ease-in-out infinite;
+  animation-delay: 0.5s;
+  will-change: transform;
+}
+
+/* Single particle — gentle bob */
+@keyframes particle-bob {
+  0%, 100% { transform: translateY(0px); opacity: 0.5; }
+  50% { transform: translateY(-14px); opacity: 0.8; }
+}
+
+.hero-particle {
+  animation: particle-bob 5s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Drift particle — moves in a slow oval path */
+@keyframes drift-path {
+  0%, 100% { transform: translate(0px, 0px); opacity: 0.25; }
+  25% { transform: translate(12px, -10px); opacity: 0.4; }
+  50% { transform: translate(6px, -18px); opacity: 0.3; }
+  75% { transform: translate(-4px, -8px); opacity: 0.35; }
+}
+
+.hero-drift {
+  animation: drift-path 14s ease-in-out infinite;
+  will-change: transform;
+}
