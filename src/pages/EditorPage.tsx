@@ -1099,6 +1099,7 @@ export function EditorPage() {
                     clipOffset={firstClip?.offset || 0}
                     videoClips={previewClips.length > 1 ? previewClips : undefined}
                     voiceoverTracks={projectData.voiceoverTracks}
+                    colorAdjustments={projectData.colorAdjustments}
                     audioTrackClips={projectData.tracks
                       .filter((t) => t.type === 'audio')
                       .flatMap((t) =>

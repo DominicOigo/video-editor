@@ -1,8 +1,8 @@
-import { useEffect, useRef, useCallback, useState } from 'react';
+import { useEffect, useRef, useCallback, useState, useMemo } from 'react';
 import { useIsMobile } from '../hooks/useMediaQuery';
 import { Play, Pause, Volume2, VolumeX, Maximize2 } from './Icons';
 import { computeKeyframeState } from '../utils/keyframeFilters';
-import type { TextOverlay, CropRegion, Keyframe, VoiceoverTrack, TrimRange, PreviewClip } from '../types';
+import type { TextOverlay, CropRegion, Keyframe, VoiceoverTrack, TrimRange, PreviewClip, ColorAdjustments } from '../types';
 
 interface VideoPlayerProps {
   src: string;
@@ -24,6 +24,7 @@ interface VideoPlayerProps {
   voiceoverTracks?: VoiceoverTrack[];
   audioTrackClips?: { blobUrl: string; offset: number; volume: number; duration: number }[];
   videoClips?: PreviewClip[];
+  colorAdjustments?: ColorAdjustments;
 }
 
 function timeToSource(clips: PreviewClip[], timelineTime: number): { sourceTime: number; speed: number } {
@@ -72,6 +73,7 @@ export function VideoPlayer({
   voiceoverTracks = [],
   audioTrackClips = [],
   videoClips,
+  colorAdjustments,
 }: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -92,6 +94,17 @@ export function VideoPlayer({
   const decodedBuffersRef = useRef<Map<string, AudioBuffer>>(new Map());
   const lastSeekTimeRef = useRef<number>(0);
   const isMultiClip = !!(videoClips && videoClips.length > 1);
+
+  const colorFilter = useMemo(() => {
+    if (!colorAdjustments) return '';
+    const parts: string[] = [];
+    const { brightness = 0, contrast = 0, saturation = 0, hue = 0 } = colorAdjustments;
+    if (brightness !== 0) parts.push(`brightness(${1 + brightness})`);
+    if (contrast !== 0) parts.push(`contrast(${1 + contrast})`);
+    if (saturation !== 0) parts.push(`saturate(${1 + saturation})`);
+    if (hue !== 0) parts.push(`hue-rotate(${hue}deg)`);
+    return parts.join(' ');
+  }, [colorAdjustments]);
 
   const seekBarRef = useRef<HTMLInputElement>(null);
   const [seekHoverTime, setSeekHoverTime] = useState<number | null>(null);
@@ -523,6 +536,7 @@ export function VideoPlayer({
         ref={videoRef}
         src={src}
         className="w-full h-full object-contain"
+        style={{ filter: colorFilter || undefined }}
         playsInline
         preload="auto"
       />
@@ -531,6 +545,7 @@ export function VideoPlayer({
         <canvas
           ref={previewCanvasRef}
           className="absolute inset-0 w-full h-full z-[5]"
+          style={{ filter: colorFilter || undefined }}
         />
       )}
 
