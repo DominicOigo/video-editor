@@ -105,7 +105,7 @@ export function RevolvingCarousel() {
           width: clamp(22px, 3.5vw, 34px);
           height: clamp(22px, 3.5vw, 34px);
           border-radius: clamp(6px, 1vw, 10px);
-          background: rgba(244,63,94,0.15);
+          background: linear-gradient(135deg, rgba(249,115,22,0.18), rgba(251,191,36,0.18));
           display: flex;
           align-items: center;
           justify-content: center;
@@ -165,11 +165,11 @@ export function RevolvingCarousel() {
                   style={{
                     opacity: Math.max(0.12, 1 - absDiff * 0.22),
                     transform: absDiff < 0.5 ? 'scale(1.05)' : 'scale(1)',
-                    boxShadow: absDiff < 0.5 ? '0 0 24px rgba(244,63,94,0.12)' : 'none',
+                    boxShadow: absDiff < 0.5 ? '0 0 24px rgba(249,115,22,0.12)' : 'none',
                   }}
                 >
                   <div className="orbit-icon">
-                    <span className="text-primary-400">{feature.icon}</span>
+                    <span className="text-orange-400">{feature.icon}</span>
                   </div>
                   <div className="orbit-title">{feature.title}</div>
                   <div className="orbit-desc">{feature.description}</div>

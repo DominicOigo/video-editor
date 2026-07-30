@@ -36,7 +36,7 @@ export function TracksPanel({
 
   const trackTypeColor = (type: string) => {
     switch (type) {
-      case 'video': return 'border-l-primary-500';
+      case 'video': return 'border-l-orange-500';
       case 'audio': return 'border-l-emerald-500';
       case 'voiceover': return 'border-l-sky-500';
       default: return 'border-l-surface-500';
