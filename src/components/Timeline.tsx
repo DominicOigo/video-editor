@@ -30,13 +30,13 @@ function formatTime(seconds: number): string {
 
 const TRACK_HEIGHT = 36;
 const TRACK_COLORS: Record<string, string> = {
-  video: 'from-orange-500/20 to-orange-600/10 border-orange-500/30',
+  video: 'from-primary-500/20 to-primary-600/10 border-primary-500/30',
   audio: 'from-emerald-500/20 to-emerald-600/10 border-emerald-500/30',
   voiceover: 'from-sky-500/20 to-sky-600/10 border-sky-500/30',
 };
 
 const TRACK_LABEL_COLORS: Record<string, string> = {
-  video: 'text-orange-400',
+  video: 'text-primary-400',
   audio: 'text-emerald-400',
   voiceover: 'text-sky-400',
 };

@@ -324,7 +324,7 @@ export function ExportDialog({ isOpen, onClose, onExport, onFastExport, exportPr
             <div className={`flex ${isMobile ? 'flex-col' : 'flex-row'} gap-2`}>
               <a
                 href={exportProgress.outputUrl}
-                download="FreeVid-Editor-Output.mp4"
+                download="Coreograph-Output.mp4"
                 className="btn-primary flex-1 text-sm"
               >
                 <Download className="w-4 h-4 mr-1.5" />

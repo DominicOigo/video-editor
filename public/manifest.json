@@ -1,11 +1,11 @@
 {
-  "name": "FreeVid Editor",
-  "short_name": "FreeVid Edit",
+  "name": "Coreograph",
+  "short_name": "Coreograph",
   "description": "Video editing in your browser — cut, crop, voiceovers, effects. Everything stays on your computer.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0a0a0f",
-  "theme_color": "#f97316",
+  "theme_color": "#f43f5e",
   "icons": [
     {
       "src": "/favicon.svg",
