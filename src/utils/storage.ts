@@ -1,7 +1,7 @@
 import { openDB, type IDBPDatabase } from 'idb';
 import type { Project, VideoFile } from '../types';
 
-const DB_NAME = 'video-editor';
+const DB_NAME = 'freemaker';
 const DB_VERSION = 2;
 
 let dbPromise: Promise<IDBPDatabase> | null = null;

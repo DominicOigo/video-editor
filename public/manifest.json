@@ -1,6 +1,6 @@
 {
-  "name": "freeDom Editor",
-  "short_name": "freeDom Edit",
+  "name": "FreeVid Editor",
+  "short_name": "FreeVid Edit",
   "description": "Video editing in your browser — cut, crop, voiceovers, effects. Everything stays on your computer.",
   "start_url": "/",
   "display": "standalone",

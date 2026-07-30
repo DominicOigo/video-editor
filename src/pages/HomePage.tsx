@@ -322,7 +322,7 @@ export function HomePage() {
                   Buy Me a Coffee
                 </h3>
                 <p className="text-surface-400 text-xs sm:text-sm mb-5 leading-relaxed">
-                  If freeDom Editor helps you, consider sending a small token. 
+                  If FreeVid Editor helps you, consider sending a small token. 
                   Every bit keeps the project alive and improving.
                 </p>
                 <SupportButton />
@@ -581,7 +581,7 @@ export function HomePage() {
 
             {/* Bottom row */}
             <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-xs text-surface-500">
-              <span>© {new Date().getFullYear()} freeDom Editor</span>
+              <span>© {new Date().getFullYear()} FreeVid Editor</span>
               <span className="hidden sm:inline text-surface-700">·</span>
               <span>
                 Created by{' '}

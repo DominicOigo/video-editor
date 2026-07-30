@@ -38,7 +38,7 @@ export function ContactForm({ isOpen, onClose }: ContactFormProps) {
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({
           email,
-          subject: `[freeDom Editor Suggestion] ${subject}`,
+          subject: `[FreeVid Editor Suggestion] ${subject}`,
           message,
           _template: 'table',
         }),
@@ -82,7 +82,7 @@ export function ContactForm({ isOpen, onClose }: ContactFormProps) {
               </h3>
               <p className="text-xs sm:text-sm text-surface-400">
                 {sent
-                  ? 'Thank you for helping make freeDom Editor better'
+                  ? 'Thank you for helping make FreeVid Editor better'
                   : 'Ideas, bugs, or features — I read every message'
                 }
               </p>

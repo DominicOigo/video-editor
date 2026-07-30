@@ -26,7 +26,7 @@ export function Header({ transparent = false, rightContent }: HeaderProps) {
             <LogoPlay className={`text-white ${isMobile ? 'w-3.5 h-3.5' : 'w-4 h-4'}`} />
           </div>
           <span className={`font-bold text-white ${isMobile ? 'text-base' : 'text-lg'}`}>
-            free<span className="text-orange-400">Dom</span> Editor
+            Free<span className="text-orange-400">Vid</span> Editor
           </span>
         </Link>
 
