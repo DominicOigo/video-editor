@@ -159,7 +159,6 @@ export default async function handler(
     const blob = await put('export/output.mp4', Buffer.from(outputBuf), {
       access: 'public',
       contentType: 'video/mp4',
-      addRandomSuffix: true,
     });
 
     return res.status(200).json({

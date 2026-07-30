@@ -15,7 +15,6 @@ import { ColorAdjustmentPanel } from '../components/ColorAdjustmentPanel';
 import { StickerPanel } from '../components/StickerPanel';
 import { AutoCaptionsPanel } from '../components/AutoCaptionsPanel';
 import { ExportDialog } from '../components/ExportDialog';
-import { ConfirmDialog } from '../components/ConfirmDialog';
 import { TracksPanel } from '../components/TracksPanel';
 import { TransitionPanel } from '../components/TransitionPanel';
 import { KeyframeEditor } from '../components/KeyframeEditor';
@@ -68,7 +67,6 @@ export function EditorPage() {
   const [voiceoverStudioOpen, setVoiceoverStudioOpen] = useState(false);
   const [animateClipId, setAnimateClipId] = useState<string | null>(null);
   const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
-  const [showRemoveConfirm, setShowRemoveConfirm] = useState(false);
   const FRAME_STEP = 1 / 30; // ~1 frame at 30fps
   const BIG_STEP = 5; // 5 seconds for shift+arrow
 
@@ -327,17 +325,6 @@ export function EditorPage() {
     setLastSaved(Date.now());
   }, [projectFromList]);
 
-  const handleDeleteProject = useCallback(() => {
-    const store = useEditorStore.getState();
-    const p = store.projects.find(proj => proj.id === projectId);
-    if (p) {
-      store.projectActions.deleteProject(projectId!);
-      saveProject(p).catch(() => {});
-    }
-    setShowRemoveConfirm(false);
-    navigate('/');
-  }, [projectId, navigate]);
-
   const handleExport = useCallback(async (preset?: PlatformPreset) => {
     if (preset) {
       const config = PLATFORM_PRESETS.find((p) => p.id === preset);
@@ -525,10 +512,7 @@ export function EditorPage() {
         headers: { 'Content-Type': p.video.file.type },
         body: p.video.file,
       });
-      if (!videoResp.ok) {
-        const errData = await videoResp.json().catch(() => ({}));
-        throw new Error(`Failed to upload video (${videoResp.status}): ${(errData as { error?: string }).error || ''}`);
-      }
+      if (!videoResp.ok) throw new Error('Failed to upload video');
       const { url: videoBlobUrl } = await videoResp.json();
 
       // 2. Upload voiceovers
@@ -739,11 +723,15 @@ export function EditorPage() {
                 </div>
 
                 <button
-                  onClick={() => setShowRemoveConfirm(true)}
+                  onClick={() => {
+                    if (window.confirm('Remove this video and all edits? This can be undone with Ctrl+Z.')) {
+                      videoActions.removeVideo();
+                    }
+                  }}
                   className="w-full btn-secondary text-sm py-2"
                 >
                   <Trash2 className="w-4 h-4 mr-1.5" />
-                  Delete Project
+                  Remove Video
                 </button>
 
                 {/* Background Music Upload */}
@@ -1111,7 +1099,6 @@ export function EditorPage() {
                     clipOffset={firstClip?.offset || 0}
                     videoClips={previewClips.length > 1 ? previewClips : undefined}
                     voiceoverTracks={projectData.voiceoverTracks}
-                    colorAdjustments={projectData.colorAdjustments}
                     audioTrackClips={projectData.tracks
                       .filter((t) => t.type === 'audio')
                       .flatMap((t) =>
@@ -1310,17 +1297,6 @@ export function EditorPage() {
         onFastExport={handleFastExport}
         exportProgress={exportProgress}
         isMobile={isMobile}
-      />
-
-      <ConfirmDialog
-        isOpen={showRemoveConfirm}
-        title="Delete Project"
-        message="Delete this project and all its edits? This cannot be undone."
-        confirmLabel="Delete"
-        cancelLabel="Cancel"
-        variant="danger"
-        onConfirm={handleDeleteProject}
-        onCancel={() => setShowRemoveConfirm(false)}
       />
     </div>
   );

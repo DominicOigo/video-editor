@@ -2,7 +2,7 @@ import { useEffect, useRef, useCallback, useState } from 'react';
 import { useIsMobile } from '../hooks/useMediaQuery';
 import { Play, Pause, Volume2, VolumeX, Maximize2 } from './Icons';
 import { computeKeyframeState } from '../utils/keyframeFilters';
-import type { TextOverlay, CropRegion, Keyframe, VoiceoverTrack, TrimRange, PreviewClip, ColorAdjustments } from '../types';
+import type { TextOverlay, CropRegion, Keyframe, VoiceoverTrack, TrimRange, PreviewClip } from '../types';
 
 interface VideoPlayerProps {
   src: string;
@@ -24,7 +24,6 @@ interface VideoPlayerProps {
   voiceoverTracks?: VoiceoverTrack[];
   audioTrackClips?: { blobUrl: string; offset: number; volume: number; duration: number }[];
   videoClips?: PreviewClip[];
-  colorAdjustments?: ColorAdjustments;
 }
 
 function timeToSource(clips: PreviewClip[], timelineTime: number): { sourceTime: number; speed: number } {
@@ -73,7 +72,6 @@ export function VideoPlayer({
   voiceoverTracks = [],
   audioTrackClips = [],
   videoClips,
-  colorAdjustments,
 }: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -510,13 +508,6 @@ export function VideoPlayer({
   const seekPercent = maxDuration > 0 ? (currentDisplayTime / maxDuration) * 100 : 0;
   const volumePercent = volume * 100;
 
-  const colorFilter = colorAdjustments ? [
-    colorAdjustments.brightness !== 0 && `brightness(${(1 + colorAdjustments.brightness).toFixed(2)})`,
-    colorAdjustments.contrast !== 0 && `contrast(${(1 + colorAdjustments.contrast).toFixed(2)})`,
-    colorAdjustments.saturation !== 0 && `saturate(${(1 + colorAdjustments.saturation).toFixed(2)})`,
-    colorAdjustments.hue !== 0 && `hue-rotate(${colorAdjustments.hue.toFixed(0)}deg)`,
-  ].filter(Boolean).join(' ') : '';
-
   return (
     <div
       ref={containerRef}
@@ -534,14 +525,12 @@ export function VideoPlayer({
         className="w-full h-full object-contain"
         playsInline
         preload="auto"
-        style={colorFilter ? { filter: colorFilter } : undefined}
       />
 
       {hasPreview && (
         <canvas
           ref={previewCanvasRef}
           className="absolute inset-0 w-full h-full z-[5]"
-          style={colorFilter ? { filter: colorFilter } : undefined}
         />
       )}
 
@@ -682,7 +671,7 @@ export function VideoPlayer({
             onMouseLeave={() => setSeekHoverTime(null)}
             onClick={(e) => e.stopPropagation()}
             className={`w-full slider ${isMobile ? 'h-2' : ''}`}
-            style={{ background: `linear-gradient(to right, #06b6d4 ${seekPercent}%, rgb(55 65 81 / 0.5) ${seekPercent}%)` }}
+            style={{ background: `linear-gradient(to right, #f97316 ${seekPercent}%, rgb(55 65 81 / 0.5) ${seekPercent}%)` }}
           />
           {seekHoverTime !== null && (
             <div
@@ -734,7 +723,7 @@ export function VideoPlayer({
               onChange={handleVolumeChange}
               onClick={(e) => e.stopPropagation()}
               className="w-20 sm:w-28 slider"
-              style={{ background: `linear-gradient(to right, #06b6d4 ${volumePercent}%, rgb(55 65 81 / 0.5) ${volumePercent}%)` }}
+              style={{ background: `linear-gradient(to right, #f97316 ${volumePercent}%, rgb(55 65 81 / 0.5) ${volumePercent}%)` }}
               aria-label="Volume"
             />
             <span className="text-white/50 text-[10px] font-mono w-8 text-right hidden sm:block">

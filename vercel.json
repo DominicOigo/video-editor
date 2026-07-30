@@ -15,15 +15,9 @@
       ]
     }
   ],
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
-  ],
   "functions": {
     "api/export.ts": {
       "memory": 1024,
-      "maxDuration": 60
-    },
-    "api/get-upload-url.ts": {
       "maxDuration": 60
     }
   }

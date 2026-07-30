@@ -57,12 +57,11 @@ function AdjSlider({ label, value, min, max, step, display, onChange }: {
   display: string; onChange: (v: number) => void;
 }) {
   const pct = ((value - min) / (max - min)) * 100;
-  const valueColor = value > 0 ? 'text-emerald-400' : value < 0 ? 'text-yellow-400' : 'text-primary-300';
   return (
     <div className="space-y-1">
       <div className="flex justify-between items-center">
         <label className="text-[10px] font-semibold text-surface-500 uppercase tracking-wider">{label}</label>
-        <span className={`text-[10px] font-mono ${valueColor}`}>{display}</span>
+        <span className="text-[10px] font-mono text-primary-300">{display}</span>
       </div>
       <input type="range" min={min} max={max} step={step} value={value}
         onChange={(e) => onChange(parseFloat(e.target.value))}
