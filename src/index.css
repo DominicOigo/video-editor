@@ -40,26 +40,23 @@
   }
 
   .btn-primary {
-    @apply relative inline-flex items-center justify-center px-6 py-3 font-semibold text-white
-    bg-gradient-to-r from-primary-600 to-primary-500 rounded-xl
-    hover:from-primary-500 hover:to-primary-400
-    active:scale-[0.98] transition-all duration-200
-    shadow-lg shadow-primary-600/20 hover:shadow-primary-500/30
-    disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
+    @apply inline-flex items-center justify-center px-6 py-3 font-semibold text-white
+    bg-primary-500 hover:bg-primary-600
+    rounded-lg transition-colors duration-150
+    disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
   .btn-secondary {
-    @apply relative inline-flex items-center justify-center px-6 py-3 font-semibold text-surface-200
-    bg-surface-800/80 border border-surface-700/50 rounded-xl
-    hover:bg-surface-700/80 hover:text-white hover:border-surface-600/50
-    active:scale-[0.98] transition-all duration-200
-    disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
+    @apply inline-flex items-center justify-center px-6 py-3 font-semibold
+    text-primary-300 border-2 border-primary-500/40 hover:border-primary-500
+    hover:text-primary-200 rounded-lg transition-colors duration-150
+    disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
   .btn-ghost {
-    @apply relative inline-flex items-center justify-center px-4 py-2 font-medium text-surface-400
-    hover:text-white hover:bg-surface-800/50 rounded-lg
-    active:scale-[0.98] transition-all duration-200;
+    @apply inline-flex items-center justify-center px-4 py-2 font-medium
+    text-surface-500 hover:text-white hover:bg-surface-800
+    rounded-lg transition-colors duration-150;
   }
 
   .input-field {
@@ -97,15 +94,15 @@
 
 @layer utilities {
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-orange-400 via-amber-400 to-yellow-400;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-300 to-primary-400;
   }
 
   .text-gradient-hero {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-orange-400 via-amber-300 to-yellow-200;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-white to-primary-300;
   }
 
   .bg-grid {
-    background-image: radial-gradient(rgba(249, 115, 22, 0.08) 1px, transparent 1px);
+    background-image: radial-gradient(rgba(244, 63, 94, 0.08) 1px, transparent 1px);
     background-size: 30px 30px;
   }
 
@@ -245,7 +242,7 @@
 /* Cube 3 — quick bob with border glow */
 @keyframes cube-float-3 {
   0%, 100% { transform: translateY(0px); opacity: 0.3; }
-  50% { transform: translateY(-10px); opacity: 0.5; box-shadow: 0 0 8px rgba(249,115,22,0.15); }
+   50% { transform: translateY(-10px); opacity: 0.5; box-shadow: 0 0 8px rgba(244,63,94,0.15); }
 }
 
 .hero-cube-3 {
