@@ -151,7 +151,7 @@ export function QualitySettingsPanel({
       {/* Info */}
       <div className="p-3 rounded-xl bg-surface-900/50 border border-surface-800/50">
         <p className="text-xs text-surface-500 leading-relaxed">
-          <span className="text-orange-400">Note:</span> Enhancements increase processing time. 
+          <span className="text-primary-400">Note:</span> Enhancements increase processing time. 
           For best results, start with a high-quality source video.
         </p>
       </div>

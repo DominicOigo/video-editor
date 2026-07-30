@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useEditorStore } from '../store/editorStore';
 import { loadProjects, saveProject, type StoredVideoFile } from '../utils/storage';
@@ -63,193 +63,17 @@ export function HomePage() {
     projectActions.deleteProject(id);
   };
 
-  const heroRef = useRef<HTMLElement>(null);
 
-  useEffect(() => {
-    const hero = heroRef.current;
-    if (!hero) return;
-
-    // Respect accessibility + skip on touch devices
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (mq.matches || 'ontouchstart' in window) return;
-
-    const gridEls = hero.querySelectorAll<HTMLElement>('[data-parallax="grid"]');
-    const shapesLayer = hero.querySelector<HTMLElement>('[data-parallax="shapes"]');
-    if (!gridEls.length) return;
-
-    let targetX = 0, targetY = 0;
-    let curX = 0, curY = 0;
-    let startTime = performance.now();
-    let rafId: number;
-
-    const onMove = (e: MouseEvent) => {
-      const rect = hero.getBoundingClientRect();
-      targetX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;  // -1 to 1
-      targetY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-    };
-
-    const onLeave = () => { targetX = 0; targetY = 0; };
-
-    const animate = (time: number) => {
-      const elapsed = (time - startTime) / 1000;
-
-      // Smooth lerp toward target
-      curX += (targetX - curX) * 0.06;
-      curY += (targetY - curY) * 0.06;
-
-      // Base drift oscillation (replaces the old CSS keyframes)
-      const driftY = Math.sin(elapsed * 0.3) * 1.5;
-      const driftX = Math.sin(elapsed * 0.2) * 0.5;
-
-      // Grid: 72° base tilt + mouse offset + drift
-      const gridRX = 72 + curY * 3 + driftX;
-      const gridRY = curX * 5 + driftY;
-      const gridTransform = `rotateX(${gridRX}deg) rotateY(${gridRY}deg)`;
-
-      gridEls.forEach(el => { el.style.transform = gridTransform; });
-
-      // Shapes: more pronounced parallax for depth layering
-      if (shapesLayer) {
-        shapesLayer.style.transform = `rotateY(${curX * 8}deg) rotateX(${curY * 2}deg)`;
-      }
-
-      rafId = requestAnimationFrame(animate);
-    };
-
-    hero.addEventListener('mousemove', onMove, { passive: true });
-    hero.addEventListener('mouseleave', onLeave);
-    rafId = requestAnimationFrame(animate);
-
-    return () => {
-      hero.removeEventListener('mousemove', onMove);
-      hero.removeEventListener('mouseleave', onLeave);
-      cancelAnimationFrame(rafId);
-    };
-  }, []);
 
   return (
     <div className="min-h-screen bg-[#0a0a0f]">
       <Header />
 
       {/* Hero Section */}
-      <section ref={heroRef} className="relative overflow-hidden pt-20 pb-5 sm:pt-24 sm:pb-7">
-        {/* 3D Perspective Grid Background */}
-        <div
-          className="absolute inset-0"
-          style={{ perspective: '900px', perspectiveOrigin: '50% 20%' }}
-        >
-          {/* Animated grid floor — tall enough to fill section after 72° rotateX */}
-          <div
-            className="absolute left-0 right-0 top-0 h-[500%] hero-grid-floor"
-            data-parallax="grid"
-            style={{
-              transformOrigin: 'center top',
-              backgroundImage: `
-                repeating-linear-gradient(
-                  to right,
-                  rgba(249, 115, 22, 0.08) 0px,
-                  rgba(249, 115, 22, 0.08) 1px,
-                  transparent 1px,
-                  transparent 45px
-                ),
-                repeating-linear-gradient(
-                  to bottom,
-                  rgba(249, 115, 22, 0.08) 0px,
-                  rgba(249, 115, 22, 0.08) 1px,
-                  transparent 1px,
-                  transparent 45px
-                )
-              `,
-            }}
-          />
-          {/* Brighter center axis lines for that 'video editor grid' feel */}
-          <div
-            className="absolute left-0 right-0 top-0 h-[500%] hero-grid-axes"
-            data-parallax="grid"
-            style={{
-              transformOrigin: 'center top',
-              backgroundImage: `
-                repeating-linear-gradient(
-                  to right,
-                  rgba(249, 115, 22, 0.2) 0px,
-                  rgba(249, 115, 22, 0.2) 1px,
-                  transparent 1px,
-                  transparent 180px
-                ),
-                repeating-linear-gradient(
-                  to bottom,
-                  rgba(249, 115, 22, 0.2) 0px,
-                  rgba(249, 115, 22, 0.2) 1px,
-                  transparent 1px,
-                  transparent 180px
-                )
-              `,
-            }}
-          />
-          {/* Fade overlay at top for clean blend */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0f] via-transparent to-transparent" />
-          {/* Warm bottom glow */}
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[900px] h-[350px] bg-orange-500/12 rounded-full blur-[150px]" />
-
-          {/* Floating 3D geometric shapes */}
-          <div className="absolute inset-0 overflow-hidden hero-shapes-layer" data-parallax="shapes">
-            {/* Cube 1 — rotating, top-left */}
-            <div className="hero-shape" style={{ left: '10%', top: '20%' }}>
-              <div className="w-5 h-5 sm:w-6 sm:h-6 border-2 border-orange-500/30 rounded-sm hero-cube" 
-                style={{ background: 'linear-gradient(135deg, rgba(249,115,22,0.1), rgba(251,191,36,0.05))' }} />
-            </div>
-
-            {/* Cube 2 — smaller, right side */}
-            <div className="hero-shape" style={{ left: '75%', top: '28%' }}>
-              <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 border border-amber-400/25 rounded-sm hero-cube-2" />
-            </div>
-
-            {/* Cube 3 — tiny, mid-right */}
-            <div className="hero-shape" style={{ left: '58%', top: '12%' }}>
-              <div className="w-3 h-3 sm:w-4 sm:h-4 border border-orange-400/20 rounded-sm hero-cube-3" />
-            </div>
-
-            {/* Diamond — slowly spinning, center-top */}
-            <div className="hero-shape" style={{ left: '46%', top: '10%' }}>
-              <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-orange-400/30 rotate-45 hero-diamond" 
-                style={{ background: 'rgba(249,115,22,0.08)' }} />
-            </div>
-
-            {/* Large ring — pulsing, top area */}
-            <div className="hero-shape" style={{ left: '18%', top: '6%' }}>
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-orange-400/20 hero-ring" />
-            </div>
-
-            {/* Small ring — right side */}
-            <div className="hero-shape" style={{ left: '85%', top: '15%' }}>
-              <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border border-amber-400/15 hero-ring-2" />
-            </div>
-
-            {/* Particle cluster — floating dots, left area */}
-            <div className="hero-shape" style={{ left: '6%', top: '38%' }}>
-              <div className="flex gap-1 sm:gap-1.5">
-                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-orange-500/50 hero-particle" />
-                <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-amber-500/40 hero-particle" style={{ animationDelay: '1.2s' }} />
-                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-orange-400/35 hero-particle" style={{ animationDelay: '2.4s' }} />
-              </div>
-            </div>
-
-            {/* Drift shape — moves in a slow oval, mid-left */}
-            <div className="hero-shape" style={{ left: '28%', top: '35%' }}>
-              <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-orange-500/25 hero-drift" />
-            </div>
-
-            {/* Single particle — right bottom */}
-            <div className="hero-shape" style={{ left: '68%', top: '38%' }}>
-              <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-amber-400/40 hero-particle" style={{ animationDelay: '0.6s' }} />
-            </div>
-          </div>
-        </div>
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
+      <section className="relative pt-24 pb-10 sm:pt-28 sm:pb-14">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center max-w-4xl mx-auto">
-            {/* Title */}
-            <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6 leading-tight">
+            <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold mb-4 sm:mb-6 leading-tight tracking-tight">
               <span className="text-gradient-hero">
                 Edit Videos
               </span>
@@ -259,17 +83,15 @@ export function HomePage() {
               </span>
             </h1>
 
-            {/* Subtitle */}
             <p className="text-sm sm:text-lg md:text-xl text-surface-400 mb-8 sm:mb-10 max-w-2xl mx-auto leading-relaxed px-2 sm:px-0">
               Cut, crop, add voiceovers, and polish your videos — right in your browser. 
               Nothing to install, nothing to upload.
             </p>
 
-            {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
               <button
                 onClick={() => setShowNewProject(true)}
-                className="btn-primary text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto group"
+                className="btn-primary text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto"
               >
                 <Plus className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                 New Project
@@ -315,8 +137,8 @@ export function HomePage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
               {/* Support Card */}
               <div className="card text-center flex flex-col items-center p-6 sm:p-8">
-                <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-orange-500/20 to-amber-500/20 mb-4 sm:mb-5">
-                  <Coffee className="w-6 h-6 sm:w-7 sm:h-7 text-orange-400" />
+                <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-primary-500/20 to-primary-400/20 mb-4 sm:mb-5">
+                  <Coffee className="w-6 h-6 sm:w-7 sm:h-7 text-primary-400" />
                 </div>
                 <h3 className="text-lg sm:text-xl font-bold text-white mb-2">
                   Buy Me a Coffee
@@ -522,11 +344,11 @@ export function HomePage() {
           <div className="flex flex-col items-center gap-4 sm:gap-5">
             {/* Brand — matches Header exactly */}
             <Link to="/" className="flex items-center gap-2 group">
-              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center group-hover:scale-105 transition-transform">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center group-hover:scale-105 transition-transform">
                 <LogoPlay className="text-white w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </div>
               <span className="text-sm sm:text-base font-bold text-white">
-                free<span className="text-orange-400">Dom</span> Editor
+                Free<span className="text-primary-400">Vid</span> Editor
               </span>
             </Link>
 
@@ -542,7 +364,7 @@ export function HomePage() {
                 href="https://web.facebook.com/profile.php?id=100073109214659"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl bg-surface-800/80 border border-surface-700/50 flex items-center justify-center text-surface-400 hover:text-white hover:border-orange-500/40 hover:bg-surface-800 transition-all duration-200"
+                className="w-9 h-9 rounded-xl bg-surface-800/80 border border-surface-700/50 flex items-center justify-center text-surface-400 hover:text-white hover:border-primary-400/40 hover:bg-surface-800 transition-all duration-200"
                 aria-label="Facebook"
               >
                 <Facebook className="w-4 h-4" />
@@ -589,7 +411,7 @@ export function HomePage() {
                   href="https://dominic-oigo.vercel.app"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-surface-400 hover:text-orange-400 transition-colors"
+                  className="text-surface-400 hover:text-primary-400 transition-colors"
                 >
                   Dominic Oigo
                 </a>
@@ -677,7 +499,7 @@ function SupportButton() {
                   'Enter your M-Pesa PIN and send',
                 ].map((step, i) => (
                   <li key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-surface-400">
-                    <span className="flex-shrink-0 w-5 h-5 rounded-full bg-orange-500/15 text-orange-400 flex items-center justify-center text-[10px] font-semibold">
+                    <span className="flex-shrink-0 w-5 h-5 rounded-full bg-primary-500/15 text-primary-400 flex items-center justify-center text-[10px] font-semibold">
                       {i + 1}
                     </span>
                     {step}
@@ -693,7 +515,7 @@ function SupportButton() {
                 className={`flex-1 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
                   copied
                     ? 'bg-green-500/20 text-green-400 border border-green-500/30'
-                    : 'bg-surface-800 text-surface-300 border border-surface-700 hover:border-orange-500/30 hover:text-white'
+                    : 'bg-surface-800 text-surface-300 border border-surface-700 hover:border-primary-400/30 hover:text-white'
                 }`}
               >
                 {copied ? (

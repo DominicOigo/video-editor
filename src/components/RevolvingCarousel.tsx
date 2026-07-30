@@ -169,7 +169,7 @@ export function RevolvingCarousel() {
                   }}
                 >
                   <div className="orbit-icon">
-                    <span className="text-orange-400">{feature.icon}</span>
+                    <span className="text-primary-400">{feature.icon}</span>
                   </div>
                   <div className="orbit-title">{feature.title}</div>
                   <div className="orbit-desc">{feature.description}</div>
