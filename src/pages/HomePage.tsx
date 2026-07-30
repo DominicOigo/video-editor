@@ -333,7 +333,7 @@ export function HomePage() {
                 <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-sky-500/20 to-blue-500/20 mb-4 sm:mb-5">
                   <Mail className="w-6 h-6 sm:w-7 sm:h-7 text-sky-400" />
                 </div>
-                <h3 className="text-lg sm:text-xl font-bold text-white mb-2">
+                <h3 className="text-lg sm:text-xl text-white mb-2" style={{ fontFamily: "'Caveat', cursive", fontWeight: 700 }}>
                   Talk to the Developer
                 </h3>
                 <p className="text-surface-400 text-xs sm:text-sm mb-5 leading-relaxed">
