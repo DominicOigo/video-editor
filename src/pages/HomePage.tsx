@@ -4,7 +4,7 @@ import { useEditorStore } from '../store/editorStore';
 import { loadProjects, saveProject, type StoredVideoFile } from '../utils/storage';
 import { Header } from '../components/Header';
 import { RevolvingCarousel } from '../components/RevolvingCarousel';
-import { Plus, SlidersHorizontal, Coffee, Film, Trash2, LogoPlay, Facebook, Instagram, Globe, WhatsApp, DollarSign, Check, Copy, Mail, Send, KenyaFlag } from '../components/Icons';
+import { Plus, SlidersHorizontal, Coffee, Film, Trash2, LogoPlay, LogoIcon, Facebook, Instagram, Globe, WhatsApp, DollarSign, Check, Copy, Mail, Send, KenyaFlag } from '../components/Icons';
 import { ContactForm } from '../components/ContactForm';
 import type { VideoFile } from '../types';
 
@@ -521,8 +521,12 @@ export function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
           <div className="flex flex-col items-center gap-4 sm:gap-5">
             {/* Brand */}
-            <Link to="/">
-              <span className="text-lg font-bold tracking-tight text-white">
+            <Link to="/" className="flex items-center gap-2">
+              <LogoIcon className="w-6 h-6 text-primary-400" />
+              <span
+                className="text-base sm:text-lg text-white tracking-wide"
+                style={{ fontFamily: "'Dancing Script', cursive", fontWeight: 700 }}
+              >
                 FreeVid Editor
               </span>
             </Link>

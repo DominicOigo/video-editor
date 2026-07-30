@@ -328,6 +328,14 @@ export const KenyaFlag = ({ className = '' }: IconProps) => (
   </svg>
 );
 
+export const LogoIcon = ({ className = '' }: IconProps) => (
+  <svg className={className} width="32" height="32" viewBox="0 0 32 32" fill="none">
+    <rect x="1.5" y="1.5" width="29" height="29" rx="7" stroke="currentColor" strokeWidth="1.8" />
+    <path d="M12 9.5v13l10-6.5-10-6.5z" fill="currentColor" />
+    <path d="M21.5 23.5l7-7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+  </svg>
+);
+
 export const LogoPlay = ({ className = '' }: IconProps) => (
   <svg className={className} width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
     <polygon points="8,5 8,19 19,12" />

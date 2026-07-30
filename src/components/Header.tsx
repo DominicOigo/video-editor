@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { LogoIcon } from './Icons';
 
 interface HeaderProps {
   transparent?: boolean;
@@ -15,8 +16,12 @@ export function Header({ transparent = false, rightContent }: HeaderProps) {
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2">
-          <span className="font-bold text-white tracking-tight">
+        <Link to="/" className="flex items-center gap-2.5 group">
+          <LogoIcon className="w-7 h-7 sm:w-8 sm:h-8 text-primary-400 group-hover:text-primary-300 transition-colors" />
+          <span
+            className="text-lg sm:text-xl text-white tracking-wide"
+            style={{ fontFamily: "'Dancing Script', cursive", fontWeight: 700 }}
+          >
             FreeVid Editor
           </span>
         </Link>
