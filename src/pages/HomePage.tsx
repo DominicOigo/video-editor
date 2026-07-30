@@ -250,11 +250,11 @@ export function HomePage() {
           <div className="text-center max-w-4xl mx-auto">
             {/* Title */}
             <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6 leading-tight">
-              <span className="text-gradient-hero">
+              <span className="text-gradient-hero" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
                 Edit Videos
               </span>
               <br />
-              <span className="text-white">
+              <span className="text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
                 Without the Bloat
               </span>
             </h1>
@@ -294,7 +294,7 @@ export function HomePage() {
       <section className="py-10 sm:py-16 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-4 sm:mb-8">
           <div className="text-center">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
               Everything You Need,{' '}
               <span className="text-gradient">Nothing You Don't</span>
             </h2>
